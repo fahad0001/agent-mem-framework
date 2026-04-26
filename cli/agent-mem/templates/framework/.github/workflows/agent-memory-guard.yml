@@ -1,0 +1,57 @@
+name: Agent Memory Guard
+
+on:
+  pull_request:
+    branches: ["**"]
+  push:
+    branches: ["main", "master"]
+
+jobs:
+  memory-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Validate JSON Schemas (AJV)
+        run: node .github/scripts/agent-memory-validate-schema.mjs
+
+      - name: AHC linter (forbidden phrases + citations + AHC block)
+        run: node .github/scripts/agent-memory-evidence-check.mjs
+
+      - name: Hash-anchor verification
+        run: node .github/scripts/agent-memory-hash-check.mjs
+
+      - name: CI drift detector
+        run: npm run ci:drift
+
+      - name: Run Agent Memory Guard (strict)
+        id: guard
+        continue-on-error: true
+        run: node .github/scripts/agent-memory-guard.mjs
+
+      - name: Generate Fix Patch (self-heal suggestion)
+        if: steps.guard.outcome == 'failure'
+        run: node .github/scripts/agent-memory-suggest-fix.mjs
+
+      - name: Upload Fix Patch Artifact
+        if: steps.guard.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-memory-fix-patch
+          path: agent-memory-fix.patch
+
+      - name: Fail if strict guard failed
+        if: steps.guard.outcome == 'failure'
+        run: |
+          echo "Agent Memory Guard failed. A patch suggestion was generated and uploaded as an artifact: agent-memory-fix-patch"
+          exit 1

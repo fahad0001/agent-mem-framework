@@ -1,0 +1,30 @@
+{
+  "name": "agent-mem-framework",
+  "version": "0.1.0-alpha.0",
+  "private": true,
+  "description": "Multi-agent SDLC framework + agent-mem CLI (npm workspace root).",
+  "type": "module",
+  "workspaces": [
+    "cli/*"
+  ],
+  "scripts": {
+    "validate:schema": "node .github/scripts/agent-memory-validate-schema.mjs",
+    "lint:ahc": "node .github/scripts/agent-memory-evidence-check.mjs",
+    "verify:hashes": "node .github/scripts/agent-memory-hash-check.mjs",
+    "rebuild:hashes": "node .github/scripts/agent-memory-hash-check.mjs --rebuild",
+    "inject:ahc": "node .github/scripts/agent-memory-inject-ahc-block.mjs",
+    "guard": "node .github/scripts/agent-memory-guard.mjs",
+    "ci:drift": "node .github/scripts/agent-memory-ci-drift.mjs",
+    "check": "npm run validate:schema && npm run lint:ahc && npm run verify:hashes && npm run ci:drift && npm run guard",
+    "cli:build": "npm run build -w agent-mem",
+    "cli:test": "npm run test -w agent-mem",
+    "cli:dev": "npm run dev -w agent-mem"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

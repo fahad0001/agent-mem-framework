@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2026-04-26T11:13:15.812Z",
+  "windowDays": 30,
+  "totals": {
+    "requirements": 0,
+    "byStatus": {}
+  },
+  "framework": {
+    "throughputDoneInWindow": 0,
+    "firstTryPassRate": null,
+    "averageFixLoopIterations": null,
+    "statusTransitionsInWindow": 0
+  },
+  "dora": {
+    "deploymentFrequency": null,
+    "leadTimeForChangesHours": null,
+    "changeFailureRate": null,
+    "meanTimeToRestoreHours": null
+  }
+}

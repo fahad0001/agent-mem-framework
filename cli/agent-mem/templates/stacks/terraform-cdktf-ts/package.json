@@ -1,0 +1,20 @@
+{
+  "name": "__projectName__",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "synth": "cdktf synth",
+    "deploy": "cdktf deploy",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "cdktf": "^0.20.0",
+    "constructs": "^10.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.1.0"
+  }
+}

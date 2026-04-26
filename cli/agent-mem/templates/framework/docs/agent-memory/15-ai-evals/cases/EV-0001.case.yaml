@@ -1,0 +1,7 @@
+id: EV-0001
+title: Smoke — echo input verbatim
+fixture: EV-0001.input.md
+expected: EV-0001.output.md
+matcher: exact
+weight: 1
+tags: [smoke]

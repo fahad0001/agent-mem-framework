@@ -1,0 +1,12 @@
+{
+  "id": "R-XXXX",
+  "title": "<Title>",
+  "status": "Draft",
+  "priority": "P2",
+  "updatedAt": "2026-02-12T00:00:00Z",
+  "paths": {
+    "requirement": "docs/agent-memory/02-requirements/R-XXXX/requirement.md",
+    "acceptance": "docs/agent-memory/02-requirements/R-XXXX/acceptance-criteria.md",
+    "traceability": "docs/agent-memory/02-requirements/R-XXXX/traceability.md"
+  }
+}

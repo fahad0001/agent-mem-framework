@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Agent-Memory Dashboard</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+
+        body {
+            font: 14px/1.4 system-ui, sans-serif;
+            margin: 0;
+            padding: 1rem;
+        }
+
+        h1 {
+            margin: 0 0 .5rem;
+            font-size: 1.2rem;
+        }
+
+        nav button {
+            margin-right: .25rem;
+            padding: .25rem .75rem;
+            cursor: pointer;
+        }
+
+        nav button[aria-current="true"] {
+            font-weight: 600;
+        }
+
+        section {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #888;
+            padding: .25rem .5rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .ok {
+            color: #0a0;
+        }
+
+        .bad {
+            color: #c00;
+        }
+
+        pre {
+            background: #0001;
+            padding: .5rem;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Agent-Memory Dashboard</h1>
+    <p>Drop <code>index.json</code> next to this file (or pick it below) to render.</p>
+    <input type="file" id="picker" accept="application/json" />
+    <nav>
+        <button data-tab="overview" aria-current="true">Overview</button>
+        <button data-tab="requirements">Requirements</button>
+        <button data-tab="quality">Quality gates</button>
+        <button data-tab="raw">Raw JSON</button>
+    </nav>
+    <section id="overview" class="active"></section>
+    <section id="requirements"></section>
+    <section id="quality"></section>
+    <section id="raw"></section>
+    <script>
+        const $ = (s) => document.querySelector(s);
+        const tabs = document.querySelectorAll("nav button");
+        tabs.forEach((b) =>
+            b.addEventListener("click", () => {
+                tabs.forEach((x) => x.setAttribute("aria-current", "false"));
+                b.setAttribute("aria-current", "true");
+                document.querySelectorAll("section").forEach((s) => s.classList.remove("active"));
+                $("#" + b.dataset.tab).classList.add("active");
+            })
+        );
+
+        function render(idx) {
+            $("#raw").innerHTML = "<pre>" + escapeHtml(JSON.stringify(idx, null, 2)) + "</pre>";
+
+            const reqs = (idx.requirements && idx.requirements.items) || idx.requirements || [];
+            const counts = {};
+            for (const r of reqs) counts[r.status] = (counts[r.status] || 0) + 1;
+            $("#overview").innerHTML =
+                "<h2>Status counts</h2><ul>" +
+                Object.entries(counts)
+                    .map(([k, v]) => `<li>${escapeHtml(k)}: ${v}</li>`)
+                    .join("") +
+                "</ul>";
+
+            $("#requirements").innerHTML =
+                "<table><thead><tr><th>ID</th><th>Title</th><th>Status</th><th>Owner</th></tr></thead><tbody>" +
+                reqs
+                    .map(
+                        (r) =>
+                            `<tr><td>${escapeHtml(r.id || "")}</td><td>${escapeHtml(
+                                r.title || ""
+                            )}</td><td>${escapeHtml(r.status || "")}</td><td>${escapeHtml(
+                                (r.owner && (r.owner.individual || r.owner.team)) || ""
+                            )}</td></tr>`
+                    )
+                    .join("") +
+                "</tbody></table>";
+
+            const gates = (idx.profiles && idx.profiles.default && idx.profiles.default.commands) || {};
+            $("#quality").innerHTML =
+                "<table><thead><tr><th>Gate</th><th>Command</th></tr></thead><tbody>" +
+                Object.entries(gates)
+                    .map(
+                        ([k, v]) =>
+                            `<tr><td>${escapeHtml(k)}</td><td><code>${escapeHtml(v)}</code></td></tr>`
+                    )
+                    .join("") +
+                "</tbody></table>";
+        }
+
+        function escapeHtml(s) {
+            return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+        }
+
+        $("#picker").addEventListener("change", async (e) => {
+            const f = e.target.files[0];
+            if (!f) return;
+            try {
+                render(JSON.parse(await f.text()));
+            } catch (err) {
+                alert("Could not parse JSON: " + err.message);
+            }
+        });
+
+        // Try same-folder fetch (works when served, not from file://).
+        fetch("index.json")
+            .then((r) => (r.ok ? r.json() : null))
+            .then((j) => j && render(j))
+            .catch(() => { });
+    </script>
+</body>
+
+</html>

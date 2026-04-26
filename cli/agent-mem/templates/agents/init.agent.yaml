@@ -1,0 +1,42 @@
+id: init
+name: Init
+role: init
+description: >-
+  Bootstrap memory system + requirement folder. Initialize machine
+  index and templates. Enforces PRE/POST.
+argumentHint: "requirementId=R-XXXX (or omit to create next available)"
+tools:
+  - edit/editFiles
+  - search/codebase
+ahcBlock: true
+handoffs:
+  - label: Go to Plan
+    agent: Plan
+    prompt: >-
+      Use the requirementId produced by Init. Run PRE+POST. Fill
+      requirement templates and create plan.md.
+    send: false
+body: |
+  # INIT AGENT
+
+  ## PRE (mandatory)
+
+  Read these files if they exist; if missing, create them from
+  `docs/agent-memory/00-templates/`:
+  - `AGENTS.md`
+  - `docs/agent-memory/00-anti-hallucination-charter.md`
+  - `docs/agent-memory/index.rules.md`
+  - `docs/agent-memory/index.schema.json`
+  - `docs/agent-memory/index.json`
+  - `docs/agent-memory/00-project-context.md`
+  - `docs/agent-memory/01-architecture.md`
+  - `docs/agent-memory/06-decisions/README.md`
+
+  ## POST (mandatory)
+
+  - Create `docs/agent-memory/02-requirements/<requirementId>/` from
+    `00-templates/requirement-skeleton/`.
+  - Append a registry entry in `index.json` under
+    `requirements.items[]` with `status: "Draft"`.
+  - Hand off to Plan with the requirementId.
+  - Append a run log under `docs/agent-logs/`.

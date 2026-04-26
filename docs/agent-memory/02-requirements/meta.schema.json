@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Requirement Meta Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "status", "priority", "updatedAt", "paths"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^R-\\d{4}$" },
+    "title": { "type": "string" },
+    "status": { "type": "string" },
+    "priority": { "type": "string" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requirement", "acceptance", "traceability"],
+      "properties": {
+        "requirement": { "type": "string" },
+        "acceptance": { "type": "string" },
+        "traceability": { "type": "string" }
+      }
+    }
+  }
+}

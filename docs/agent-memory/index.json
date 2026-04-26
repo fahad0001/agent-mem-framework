@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-04-25T00:00:00Z",
+  "project": {
+    "name": "agent-mem-framework",
+    "repoRoot": ".",
+    "memoryRoot": "docs/agent-memory",
+    "timezone": "Asia/Karachi"
+  },
+  "profiles": {
+    "shared": {
+      "locations": [
+        ".github/agents",
+        ".github/prompts",
+        ".github/scripts",
+        "docs/agent-memory"
+      ]
+    }
+  },
+  "requirements": {
+    "sequence": 0,
+    "items": []
+  },
+  "decisions": {
+    "sequence": 0,
+    "items": []
+  },
+  "qualityGates": {
+    "file": "docs/agent-memory/07-quality-gates.md",
+    "profiles": ["shared"]
+  },
+  "logs": {
+    "root": "docs/agent-logs",
+    "convention": "YYYY-MM-DD__R-XXXX__<agent>.md"
+  }
+}

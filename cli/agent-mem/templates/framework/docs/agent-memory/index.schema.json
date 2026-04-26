@@ -1,0 +1,340 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/agent-memory/index.schema.json",
+  "title": "Agent Memory Index Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "generatedAt",
+    "project",
+    "profiles",
+    "requirements",
+    "decisions",
+    "qualityGates",
+    "logs"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version for the index document (not the project).",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the index was last updated."
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "repoRoot", "memoryRoot", "timezone"],
+      "properties": {
+        "name": { "type": "string" },
+        "repoRoot": {
+          "type": "string",
+          "description": "Path reference, e.g. '.'"
+        },
+        "memoryRoot": {
+          "type": "string",
+          "description": "Path reference, e.g. 'docs/agent-memory'."
+        },
+        "timezone": {
+          "type": "string",
+          "description": "IANA timezone.",
+          "examples": ["Asia/Karachi", "Europe/Amsterdam"]
+        }
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "description": "Stack profiles so the index is framework-agnostic long-term. Only `shared` is mandatory; `frontend`/`backend` are optional and apply only when those layers exist. Phase 3 of the framework upgrade will replace this with an open-ended map keyed by project kind.",
+      "additionalProperties": false,
+      "required": ["shared"],
+      "properties": {
+        "frontend": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "location", "commands"],
+          "properties": {
+            "name": { "type": "string", "examples": ["TanStack Start"] },
+            "location": { "type": "string", "examples": ["apps/web"] },
+            "commands": { "$ref": "#/$defs/commandSet" }
+          }
+        },
+        "backend": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "location", "commands"],
+          "properties": {
+            "name": {
+              "type": "string",
+              "examples": ["TBD", "Node + Fastify", ".NET", "Go"]
+            },
+            "location": { "type": "string", "examples": ["apps/api"] },
+            "commands": { "$ref": "#/$defs/commandSet" }
+          }
+        },
+        "shared": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["locations"],
+          "properties": {
+            "locations": {
+              "type": "array",
+              "items": { "type": "string" },
+              "examples": [["packages/shared", "packages/config"]]
+            }
+          }
+        }
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence", "items"],
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Monotonic counter. Increment any time any requirement entry changes."
+        },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/requirementEntry" }
+        }
+      }
+    },
+    "decisions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence", "items"],
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Monotonic counter. Increment any time ADR list changes."
+        },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/adrEntry" }
+        }
+      }
+    },
+    "qualityGates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file", "profiles"],
+      "properties": {
+        "file": {
+          "type": "string",
+          "examples": ["docs/agent-memory/07-quality-gates.md"]
+        },
+        "profiles": {
+          "type": "array",
+          "items": { "type": "string" },
+          "examples": [["frontend", "backend"]]
+        }
+      }
+    },
+    "logs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root", "convention"],
+      "properties": {
+        "root": { "type": "string", "examples": ["docs/agent-logs"] },
+        "convention": {
+          "type": "string",
+          "description": "Naming convention for log files."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "commandSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["install", "typecheck", "lint", "test", "build"],
+      "properties": {
+        "install": { "type": "string" },
+        "typecheck": { "type": "string" },
+        "lint": { "type": "string" },
+        "test": { "type": "string" },
+        "build": { "type": "string" },
+        "e2e": { "type": "string" },
+        "analyze": { "type": "string" }
+      }
+    },
+    "requirementEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "status",
+        "priority",
+        "tags",
+        "createdAt",
+        "updatedAt",
+        "owner",
+        "paths",
+        "latest",
+        "links"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^R-\\d{4}$"
+        },
+        "title": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Draft",
+            "Planned",
+            "Processed",
+            "Implemented",
+            "Evaluated",
+            "Done",
+            "Blocked"
+          ]
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["P0", "P1", "P2", "P3"]
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "owner": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["agent", "human"],
+          "properties": {
+            "agent": {
+              "type": "string",
+              "description": "Agent name last responsible."
+            },
+            "human": {
+              "type": "string",
+              "description": "Optional human owner.",
+              "default": ""
+            }
+          }
+        },
+        "paths": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "requirementRoot",
+            "planRoot",
+            "executionRoot",
+            "evaluationRoot"
+          ],
+          "properties": {
+            "requirementRoot": { "type": "string" },
+            "planRoot": { "type": "string" },
+            "executionRoot": { "type": "string" },
+            "evaluationRoot": { "type": "string" }
+          }
+        },
+        "latest": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["plan", "execution", "evaluation"],
+          "properties": {
+            "plan": { "$ref": "#/$defs/latestDocRef" },
+            "execution": { "$ref": "#/$defs/latestDocRef" },
+            "evaluation": { "$ref": "#/$defs/latestDocRef" }
+          }
+        },
+        "links": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "progressIndexRowHint",
+            "relatedAdrs",
+            "dependsOn",
+            "blocks"
+          ],
+          "properties": {
+            "progressIndexRowHint": {
+              "type": "string",
+              "description": "Human-readable hint to locate the row in 08-progress-index.md"
+            },
+            "relatedAdrs": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^ADR-\\d{4}$" },
+              "default": []
+            },
+            "dependsOn": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^R-\\d{4}$" },
+              "default": []
+            },
+            "blocks": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^R-\\d{4}$" },
+              "default": []
+            }
+          }
+        },
+        "checks": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Most recent command outcomes (optional but very useful).",
+          "properties": {
+            "typecheck": { "$ref": "#/$defs/checkResult" },
+            "lint": { "$ref": "#/$defs/checkResult" },
+            "test": { "$ref": "#/$defs/checkResult" },
+            "build": { "$ref": "#/$defs/checkResult" },
+            "e2e": { "$ref": "#/$defs/checkResult" },
+            "analyze": { "$ref": "#/$defs/checkResult" }
+          }
+        }
+      }
+    },
+    "adrEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "status", "date", "file"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^ADR-\\d{4}$" },
+        "title": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["Proposed", "Accepted", "Rejected", "Superseded"]
+        },
+        "date": { "type": "string", "format": "date" },
+        "file": { "type": "string" },
+        "supersedes": { "type": "string", "pattern": "^ADR-\\d{4}$" }
+      }
+    },
+    "latestDocRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file", "updatedAt"],
+      "properties": {
+        "file": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "checkResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "ranAt"],
+      "properties": {
+        "status": { "type": "string", "enum": ["PASS", "FAIL", "NOT_RUN"] },
+        "ranAt": { "type": "string", "format": "date-time" },
+        "evidence": {
+          "type": "string",
+          "description": "Short note or link to log file section."
+        }
+      }
+    }
+  }
+}

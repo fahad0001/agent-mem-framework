@@ -1,0 +1,23 @@
+version: 1
+allow:
+  - MIT
+  - MIT-0
+  - Apache-2.0
+  - BSD-2-Clause
+  - BSD-3-Clause
+  - ISC
+  - 0BSD
+  - CC0-1.0
+  - Unlicense
+deny:
+  - GPL-2.0
+  - GPL-3.0
+  - AGPL-1.0
+  - AGPL-3.0
+  - LGPL-2.1
+  - LGPL-3.0
+  - SSPL-1.0
+  - BUSL-1.1
+notes: |
+  Anything not on the allow-list requires legal review and an ADR before
+  it can ship. Update this file via PR; do not edit at release time.
