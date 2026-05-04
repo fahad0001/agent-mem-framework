@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-04-25T00:00:00Z",
+  "generatedAt": "2026-05-04T05:25:44.655Z",
   "project": {
     "name": "agent-mem-framework",
     "repoRoot": ".",
@@ -27,10 +27,90 @@
   },
   "qualityGates": {
     "file": "docs/agent-memory/07-quality-gates.md",
-    "profiles": ["shared"]
+    "profiles": [
+      "shared"
+    ]
   },
   "logs": {
     "root": "docs/agent-logs",
     "convention": "YYYY-MM-DD__R-XXXX__<agent>.md"
+  },
+  "folderIndexes": {
+    "generatedBy": ".github/scripts/agent-memory-build-folder-indexes.mjs",
+    "root": "docs/agent-memory",
+    "items": [
+      {
+        "folder": "docs/agent-memory",
+        "kind": "root",
+        "indexFile": "docs/agent-memory/index.json",
+        "description": "Canonical agent memory root."
+      },
+      {
+        "folder": "docs/agent-memory/00-templates",
+        "kind": "phase",
+        "indexFile": "docs/agent-memory/00-templates/index.json",
+        "description": "Agent memory folder."
+      },
+      {
+        "folder": "docs/agent-memory/00-templates/requirement-skeleton",
+        "kind": "support",
+        "indexFile": "docs/agent-memory/00-templates/requirement-skeleton/index.json",
+        "description": "Agent memory folder."
+      },
+      {
+        "folder": "docs/agent-memory/02-requirements",
+        "kind": "phase",
+        "indexFile": "docs/agent-memory/02-requirements/index.json",
+        "description": "Requirement artifacts grouped by R-XXXX."
+      },
+      {
+        "folder": "docs/agent-memory/03-plans",
+        "kind": "phase",
+        "indexFile": "docs/agent-memory/03-plans/index.json",
+        "description": "Planning artifacts grouped by R-XXXX."
+      },
+      {
+        "folder": "docs/agent-memory/03-plans/_templates",
+        "kind": "support",
+        "indexFile": "docs/agent-memory/03-plans/_templates/index.json",
+        "description": "Agent memory folder."
+      },
+      {
+        "folder": "docs/agent-memory/04-execution",
+        "kind": "phase",
+        "indexFile": "docs/agent-memory/04-execution/index.json",
+        "description": "Execution artifacts grouped by R-XXXX."
+      },
+      {
+        "folder": "docs/agent-memory/05-evaluation",
+        "kind": "phase",
+        "indexFile": "docs/agent-memory/05-evaluation/index.json",
+        "description": "Evaluation artifacts grouped by R-XXXX."
+      },
+      {
+        "folder": "docs/agent-memory/05-evaluation/_templates",
+        "kind": "support",
+        "indexFile": "docs/agent-memory/05-evaluation/_templates/index.json",
+        "description": "Agent memory folder."
+      },
+      {
+        "folder": "docs/agent-memory/06-decisions",
+        "kind": "phase",
+        "indexFile": "docs/agent-memory/06-decisions/index.json",
+        "description": "Architecture decision records."
+      },
+      {
+        "folder": "docs/agent-memory/09-audits",
+        "kind": "phase",
+        "indexFile": "docs/agent-memory/09-audits/index.json",
+        "description": "Agent memory folder."
+      },
+      {
+        "folder": "docs/agent-memory/metrics",
+        "kind": "metrics",
+        "indexFile": "docs/agent-memory/metrics/index.json",
+        "description": "Metrics and measurement artifacts."
+      }
+    ]
   }
 }

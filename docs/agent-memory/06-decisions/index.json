@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0.0",
+  "folder": "docs/agent-memory/06-decisions",
+  "description": "Architecture decision records.",
+  "files": [
+    {
+      "file": "docs/agent-memory/06-decisions/ADR-template.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/06-decisions/README.md",
+      "kind": "md"
+    }
+  ],
+  "subfolders": []
+}

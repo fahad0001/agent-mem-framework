@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "folder": "docs/agent-memory/05-evaluation/_templates",
+  "description": "Agent memory folder.",
+  "files": [
+    {
+      "file": "docs/agent-memory/05-evaluation/_templates/compliance-checklist.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/05-evaluation/_templates/evaluation-criteria.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/05-evaluation/_templates/evaluation-report.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/05-evaluation/_templates/final-approval-report.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/05-evaluation/_templates/fix-loop-report.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/05-evaluation/_templates/metrics-report.md",
+      "kind": "md"
+    }
+  ],
+  "subfolders": []
+}

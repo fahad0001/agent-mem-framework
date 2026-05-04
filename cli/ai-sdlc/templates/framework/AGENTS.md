@@ -16,19 +16,25 @@ Agents MUST rely on file-based memory and artifacts so work is reproducible even
    - If unsure, inspect repo files and/or run commands.
    - Any claim about behavior must be backed by evidence (file path, command output, or test result).
 
-2. **Single Source of Truth**
+2. **Clarify before defaulting**
+   - If required input is missing, ambiguous, or could change scope, risk, architecture, cost, data handling, or user-visible behavior, ask concise questions before acting.
+   - Defaults are allowed only when they are explicit in the CLI/documentation, reversible, low-risk, or the user requested non-interactive execution.
+   - If the work must continue with unknowns, record them in `open-questions.md` and mark affected claims as `UNKNOWN` instead of inventing facts.
+
+3. **Single Source of Truth**
    - The canonical memory lives in `docs/agent-memory/`.
    - The canonical machine index is `docs/agent-memory/index.json`.
+   - Folder-level machine indexes live at `docs/agent-memory/**/index.json`; use them for fast artifact discovery before reading broad Markdown sets.
 
-3. **PRE + POST is mandatory for every agent**
+4. **PRE + POST is mandatory for every agent**
    - PRE: read required memory files before acting.
    - POST: write outputs to the correct folders, update indices, write logs.
 
-4. **Traceability is mandatory**
+5. **Traceability is mandatory**
    - Every change must map back to a requirement `R-XXXX`.
    - Keep `traceability.md` updated per requirement.
 
-5. **No silent architectural drift**
+6. **No silent architectural drift**
    - Any major change requires an ADR in `docs/agent-memory/06-decisions/`.
 
 ---
@@ -141,6 +147,7 @@ Any agent modifying requirement state MUST update:
 
 1. `docs/agent-memory/08-progress-index.md` (human)
 2. `docs/agent-memory/index.json` (machine)
+3. `docs/agent-memory/**/index.json` via `npm run build:memory-indexes` when files under memory changed
 
 ---
 

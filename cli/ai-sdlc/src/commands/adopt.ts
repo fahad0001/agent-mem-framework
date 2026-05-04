@@ -4,6 +4,12 @@ import { copyTemplate, templatesRoot } from "../engine/template-fs.js";
 import { loadAllAgents } from "../engine/agent-yaml.js";
 import { renderAgents, readAhcBlock } from "../engine/renderers.js";
 import {
+  CORE_AGENT_IDS,
+  DEFAULT_CATEGORIES,
+  resolveCapabilities,
+} from "../engine/capabilities.js";
+import { filterCapabilities } from "../engine/capability-filter.js";
+import {
   detectExisting,
   audit,
   captureSnapshot,
@@ -32,6 +38,8 @@ export interface AdoptOptions {
   yes?: boolean;
   deep?: boolean;
   applyFixes?: boolean;
+  /** Capability selectors (categories or capability ids). Default = diagnostics. */
+  capabilities?: string[];
 }
 
 export interface DetectedProject {
@@ -186,9 +194,19 @@ export const cmdAdopt = async (opts: AdoptOptions): Promise<void> => {
     `framework: wrote ${r.written.length}, kept ${r.skipped.length} existing`,
   );
 
+  const selectors =
+    opts.capabilities && opts.capabilities.length > 0
+      ? opts.capabilities
+      : (DEFAULT_CATEGORIES as readonly string[]);
+  const { capabilities, categories } = resolveCapabilities(selectors);
+
   // 2. Render vendor agents (default to copilot if none specified).
   const vendors: Vendor[] = opts.vendors ?? ["copilot"];
-  const agents = loadAllAgents(path.join(templatesRoot(), "agents"));
+  const agents = loadAllAgents(path.join(templatesRoot(), "agents")).filter(
+    (agent) =>
+      (CORE_AGENT_IDS as readonly string[]).includes(agent.id) ||
+      capabilities.has(agent.id),
+  );
   if (agents.length > 0) {
     const ahcBlock = readAhcBlock(root);
     const results = renderAgents(agents, vendors, {
@@ -197,6 +215,14 @@ export const cmdAdopt = async (opts: AdoptOptions): Promise<void> => {
     });
     const total = results.reduce((acc, r) => acc + r.files.length, 0);
     log.ok(`rendered ${total} vendor file(s) for ${vendors.join(", ")}`);
+  }
+
+  const removed = filterCapabilities(root, capabilities, categories);
+  log.dim(
+    `capabilities included: ${[...capabilities].sort().join(", ") || "(sdlc core only)"}`,
+  );
+  if (removed.length) {
+    log.dim(`pruned ${removed.length} non-selected capability file(s)`);
   }
 
   // 3. Update meta.json with detection result.
@@ -208,6 +234,8 @@ export const cmdAdopt = async (opts: AdoptOptions): Promise<void> => {
       teamMode: "solo" as TeamMode,
     },
     vendors,
+    capabilities: [...capabilities].sort(),
+    capabilityCategories: [...categories].sort(),
     detection: det,
     generatedBy: "ai-sdlc adopt",
     generatedAt: new Date().toISOString(),

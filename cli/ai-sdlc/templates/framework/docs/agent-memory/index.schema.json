@@ -11,6 +11,7 @@
     "profiles",
     "requirements",
     "decisions",
+    "folderIndexes",
     "qualityGates",
     "logs"
   ],
@@ -118,6 +119,19 @@
         "items": {
           "type": "array",
           "items": { "$ref": "#/$defs/adrEntry" }
+        }
+      }
+    },
+    "folderIndexes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generatedBy", "root", "items"],
+      "properties": {
+        "generatedBy": { "type": "string" },
+        "root": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/folderIndexEntry" }
         }
       }
     },
@@ -312,6 +326,17 @@
         "date": { "type": "string", "format": "date" },
         "file": { "type": "string" },
         "supersedes": { "type": "string", "pattern": "^ADR-\\d{4}$" }
+      }
+    },
+    "folderIndexEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["folder", "kind", "indexFile", "description"],
+      "properties": {
+        "folder": { "type": "string" },
+        "kind": { "type": "string" },
+        "indexFile": { "type": "string" },
+        "description": { "type": "string" }
       }
     },
     "latestDocRef": {

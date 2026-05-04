@@ -34,8 +34,8 @@ if (!fs.existsSync(SOURCE)) {
 }
 
 const src = stripBom(fs.readFileSync(SOURCE, "utf8"));
-const b = src.indexOf(BEGIN);
-const e = src.indexOf(END);
+const b = src.lastIndexOf(BEGIN);
+const e = src.lastIndexOf(END);
 if (b === -1 || e === -1 || e < b) {
   console.error(`✗ source ${SOURCE} has no AHC:BEGIN/END markers`);
   process.exit(1);

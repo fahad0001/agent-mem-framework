@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0.0",
+  "folder": "docs/agent-memory/02-requirements",
+  "description": "Requirement artifacts grouped by R-XXXX.",
+  "files": [
+    {
+      "file": "docs/agent-memory/02-requirements/meta.schema.json",
+      "kind": "json"
+    },
+    {
+      "file": "docs/agent-memory/02-requirements/README.md",
+      "kind": "md"
+    }
+  ],
+  "subfolders": []
+}

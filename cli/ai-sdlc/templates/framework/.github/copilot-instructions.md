@@ -6,8 +6,10 @@ You MUST follow `AGENTS.md` (Agent Operating Contract) and any nested `AGENTS.md
 
 - Prefer reading existing code/docs over guessing.
 - Produce changes in small, reviewable steps.
+- Ask concise clarification questions when missing input could change scope, risk, architecture, data handling, or user-visible behavior; record unresolved unknowns in `open-questions.md` instead of choosing silent defaults.
 - Every output must be written to `docs/agent-memory/*` as defined in `AGENTS.md`.
 - Maintain the Agent Memory Index in `docs/agent-memory/index.json` per `docs/agent-memory/index.rules.md`.
+- Use `docs/agent-memory/**/index.json` for fast memory lookup before reading broad Markdown sets; refresh folder indexes with `npm run build:memory-indexes` after memory tree changes.
 
 ## Traceability
 

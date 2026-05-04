@@ -90,8 +90,12 @@ acting. Summary of binding rules — violations are blocking:
    `verify` agent to recompute hashes and recheck citations. PASS the
    verify pass before transitioning state.
 
-9. **Ask, do not infer.** If the answer is not in evidence, ask the
-   user. The wizard records the answer with provenance kind `human`.
+9. **Ask, do not infer.** If the answer is not in evidence and could
+   change scope, risk, architecture, data handling, or user-visible
+   behavior, ask the user before acting. If the run must continue,
+   record the unknown in `open-questions.md` and keep the related claim
+   at `confidence: "unknown"`. The wizard records the answer with
+   provenance kind `human`.
 
 10. **Append-only logs.** Write a per-run log under
     `docs/agent-logs/YYYY-MM-DD__<id>__<agent>.md` listing every file

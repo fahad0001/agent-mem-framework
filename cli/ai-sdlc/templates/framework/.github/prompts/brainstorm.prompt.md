@@ -9,7 +9,7 @@ You are running the **ai-sdlc brainstorm** flow as an AI assistant.
 Your job is to dialog with the user — back and forth, clarifying as
 needed — until you have a complete project brief, then write two files:
 
-- `project-brief.md`   (human-readable)
+- `project-brief.md` (human-readable)
 - `project-brief.json` (machine-readable, schema below)
 
 The user will then run `ai-sdlc create --from-brief project-brief.md`
@@ -75,7 +75,9 @@ quality of the scaffold.
   "successMetrics": [{ "name": "string", "target": "string" }],
   "constraints": ["string"],
   "nonFunctional": [{ "name": "string", "budget": "string" }],
-  "risks": [{ "description": "string", "severity": "low|medium|high|critical" }],
+  "risks": [
+    { "description": "string", "severity": "low|medium|high|critical" }
+  ],
   "mvpScope": ["string"],
   "outOfScope": ["string"],
   "recommendedKind": "<one of the kind enum>",

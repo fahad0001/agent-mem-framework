@@ -277,6 +277,7 @@ describe("scaffold smoke", () => {
 
 import { cmdInit } from "../src/commands/init.js";
 import { cmdCreate } from "../src/commands/create.js";
+import { cmdAdopt } from "../src/commands/adopt.js";
 
 describe("duplication guard", () => {
   it("init refuses when framework already present in cwd", async () => {
@@ -401,6 +402,98 @@ describe("capability categories", () => {
         path.join(targetDir, ".github/workflows/agent-memory-guard.yml"),
       ),
     ).toBe(true);
+    expect(
+      fs.existsSync(path.join(targetDir, "docs/agent-logs/README.md")),
+    ).toBe(true);
+    expect(
+      fs.existsSync(path.join(targetDir, ".github/skills/pr-review/SKILL.md")),
+    ).toBe(true);
+    expect(
+      fs.existsSync(
+        path.join(targetDir, ".github/skills/pr-review/skill.json"),
+      ),
+    ).toBe(true);
+    expect(
+      fs.existsSync(
+        path.join(
+          targetDir,
+          ".github/skills/pr-review/references/review-checklist.md",
+        ),
+      ),
+    ).toBe(true);
+    expect(
+      fs.existsSync(path.join(targetDir, ".github/scripts/skill-guard.mjs")),
+    ).toBe(true);
+    expect(
+      fs.existsSync(
+        path.join(
+          targetDir,
+          ".github/skills/pr-review/scripts/collect-review-context.mjs",
+        ),
+      ),
+    ).toBe(true);
+    const skillBody = fs.readFileSync(
+      path.join(targetDir, ".github/skills/pr-review/SKILL.md"),
+      "utf8",
+    );
+    expect(skillBody).toContain("SKILL_DIR");
+    expect(skillBody).toContain("review-checklist.md");
+    const memoryIndex = JSON.parse(
+      fs.readFileSync(
+        path.join(targetDir, "docs/agent-memory/index.json"),
+        "utf8",
+      ),
+    );
+    expect(memoryIndex.folderIndexes.items.length).toBeGreaterThan(0);
+    expect(
+      fs.existsSync(
+        path.join(targetDir, "docs/agent-memory/02-requirements/index.json"),
+      ),
+    ).toBe(true);
+    const planAgent = fs.readFileSync(
+      path.join(targetDir, ".github/agents/plan.agent.md"),
+      "utf8",
+    );
+    expect(planAgent).toContain("Evidence-or-Abstain");
+    expect(planAgent).toContain("Ask, do not infer");
+  }, 30_000);
+
+  it("adopt defaults to diagnostics capabilities instead of shipping every agent", async () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "ai-sdlc-adopt-caps-"));
+    fs.writeFileSync(
+      path.join(tmp, "package.json"),
+      JSON.stringify({ name: "adopt-caps", version: "0.0.0" }, null, 2) + "\n",
+      "utf8",
+    );
+
+    await cmdAdopt({ cwd: tmp });
+
+    expect(fs.existsSync(path.join(tmp, "docs/agent-logs/README.md"))).toBe(
+      true,
+    );
+    expect(fs.existsSync(path.join(tmp, ".github/agents/audit.agent.md"))).toBe(
+      true,
+    );
+    expect(fs.existsSync(path.join(tmp, ".github/agents/adopt.agent.md"))).toBe(
+      false,
+    );
+    expect(
+      fs.existsSync(path.join(tmp, ".github/prompts/adopt.prompt.md")),
+    ).toBe(false);
+    expect(
+      fs.existsSync(path.join(tmp, ".github/skills/memory-transform/SKILL.md")),
+    ).toBe(true);
+
+    const meta = JSON.parse(
+      fs.readFileSync(path.join(tmp, "ai-sdlc.config.json"), "utf8"),
+    );
+    expect(meta.capabilities).toEqual([
+      "audit",
+      "doctor",
+      "repair",
+      "status",
+      "validate",
+    ]);
   }, 30_000);
 
   it("`ai-sdlc add security` adds only security capabilities", async () => {

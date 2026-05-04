@@ -387,8 +387,8 @@ export const readAhcBlock = (targetRoot: string): string => {
     );
   }
   const src = fs.readFileSync(p, "utf8").replace(/^\uFEFF/, "");
-  const b = src.indexOf("<!-- AHC:BEGIN -->");
-  const e = src.indexOf("<!-- AHC:END -->");
+  const b = src.lastIndexOf("<!-- AHC:BEGIN -->");
+  const e = src.lastIndexOf("<!-- AHC:END -->");
   if (b === -1 || e === -1)
     throw new Error("AHC markers missing in source block file.");
   return src.slice(b, e + "<!-- AHC:END -->".length);

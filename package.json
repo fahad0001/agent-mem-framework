@@ -1,6 +1,6 @@
 {
   "name": "ai-sdlc-framework",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.5",
   "private": true,
   "description": "Multi-agent SDLC framework + ai-sdlc CLI (npm workspace root).",
   "type": "module",
@@ -10,12 +10,15 @@
   "scripts": {
     "validate:schema": "node .github/scripts/agent-memory-validate-schema.mjs",
     "lint:ahc": "node .github/scripts/agent-memory-evidence-check.mjs",
+    "validate:skills": "node .github/scripts/skill-guard.mjs",
+    "build:memory-indexes": "node .github/scripts/agent-memory-build-folder-indexes.mjs",
+    "validate:memory-indexes": "node .github/scripts/agent-memory-build-folder-indexes.mjs --check",
     "verify:hashes": "node .github/scripts/agent-memory-hash-check.mjs",
     "rebuild:hashes": "node .github/scripts/agent-memory-hash-check.mjs --rebuild",
     "inject:ahc": "node .github/scripts/agent-memory-inject-ahc-block.mjs",
     "guard": "node .github/scripts/agent-memory-guard.mjs",
     "ci:drift": "node .github/scripts/agent-memory-ci-drift.mjs",
-    "check": "npm run validate:schema && npm run lint:ahc && npm run verify:hashes && npm run ci:drift && npm run guard",
+    "check": "npm run validate:schema && npm run lint:ahc && npm run validate:skills && npm run validate:memory-indexes && npm run verify:hashes && npm run ci:drift && npm run guard",
     "cli:build": "npm run build -w @opair/ai-sdlc",
     "cli:test": "npm run test -w @opair/ai-sdlc",
     "cli:dev": "npm run dev -w @opair/ai-sdlc"

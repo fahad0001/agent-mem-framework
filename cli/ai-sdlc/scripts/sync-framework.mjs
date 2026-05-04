@@ -10,6 +10,7 @@
  *   docs/agent-memory/      (the entire memory layer)
  *   AGENTS.md
  *   .github/scripts/agent-memory-*.mjs
+ *   .github/scripts/skill-guard.mjs
  *   .github/workflows/agent-memory-guard.yml
  */
 
@@ -24,11 +25,14 @@ const TEMPLATE_ROOT = path.resolve(HERE, "..", "templates", "framework");
 
 const SOURCES = [
   { from: "docs/agent-memory", to: "docs/agent-memory" },
+  { from: "docs/agent-logs", to: "docs/agent-logs" },
   { from: "AGENTS.md", to: "AGENTS.md" },
   {
     from: ".github/scripts",
     to: ".github/scripts",
-    filter: (n) => n.startsWith("agent-memory-") && n.endsWith(".mjs"),
+    filter: (n) =>
+      (n.startsWith("agent-memory-") && n.endsWith(".mjs")) ||
+      n === "skill-guard.mjs",
   },
   {
     from: ".github/workflows/agent-memory-guard.yml",
@@ -47,6 +51,11 @@ const SOURCES = [
   {
     from: ".github/instructions",
     to: ".github/instructions",
+    optional: true,
+  },
+  {
+    from: ".github/skills",
+    to: ".github/skills",
     optional: true,
   },
 ];
@@ -91,6 +100,54 @@ for (const s of SOURCES) {
   copyRecursive(src, dst, s.filter);
   console.log(`[sync-framework] ${s.from}  →  templates/framework/${s.to}`);
 }
+
+const BEGIN = "<!-- AHC:BEGIN -->";
+const END = "<!-- AHC:END -->";
+
+const readAhcBlock = () => {
+  const source = path.join(
+    REPO_ROOT,
+    "docs",
+    "agent-memory",
+    "anti-hallucination-block.md",
+  );
+  if (!fs.existsSync(source)) return null;
+  const raw = fs.readFileSync(source, "utf8").replace(/^\uFEFF/, "");
+  const begin = raw.lastIndexOf(BEGIN);
+  const end = raw.lastIndexOf(END);
+  if (begin === -1 || end === -1 || end < begin) return null;
+  return raw.slice(begin, end + END.length);
+};
+
+const expandTemplateAgentAhcBlocks = () => {
+  const block = readAhcBlock();
+  const agentsDir = path.join(TEMPLATE_ROOT, ".github", "agents");
+  if (!block || !fs.existsSync(agentsDir)) return;
+  for (const f of fs.readdirSync(agentsDir)) {
+    if (!f.endsWith(".agent.md")) continue;
+    const file = path.join(agentsDir, f);
+    const before = fs.readFileSync(file, "utf8").replace(/^\uFEFF/, "");
+    const begin = before.indexOf(BEGIN);
+    const end = before.indexOf(END);
+    const start = begin > 0 && before[begin - 1] === "`" ? begin - 1 : begin;
+    const finish =
+      before[end + END.length] === "`"
+        ? end + END.length + 1
+        : end + END.length;
+    const after =
+      begin !== -1 && end !== -1 && end > begin
+        ? before.slice(0, start) + block + before.slice(finish)
+        : `${before.trimEnd()}\n\n---\n\n${block}\n`;
+    if (after !== before) {
+      fs.writeFileSync(file, after, "utf8");
+      console.log(
+        `[sync-framework] expand AHC block in templates/framework/.github/agents/${f}`,
+      );
+    }
+  }
+};
+
+expandTemplateAgentAhcBlocks();
 
 // Strip framework-dev quarantine if it leaked into docs/agent-memory copies
 // (defensive — the source of truth never contains framework-dev there).

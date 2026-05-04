@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0.0",
+  "folder": "docs/agent-memory/04-execution",
+  "description": "Execution artifacts grouped by R-XXXX.",
+  "files": [
+    {
+      "file": "docs/agent-memory/04-execution/README.md",
+      "kind": "md"
+    }
+  ],
+  "subfolders": []
+}

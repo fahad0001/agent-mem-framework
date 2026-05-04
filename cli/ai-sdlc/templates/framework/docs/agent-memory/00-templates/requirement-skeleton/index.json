@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "folder": "docs/agent-memory/00-templates/requirement-skeleton",
+  "description": "Agent memory folder.",
+  "files": [
+    {
+      "file": "docs/agent-memory/00-templates/requirement-skeleton/acceptance-criteria.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/00-templates/requirement-skeleton/constraints.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/00-templates/requirement-skeleton/meta.json",
+      "kind": "json"
+    },
+    {
+      "file": "docs/agent-memory/00-templates/requirement-skeleton/nonfunctional.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/00-templates/requirement-skeleton/README.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/00-templates/requirement-skeleton/requirement.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/00-templates/requirement-skeleton/risks.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/00-templates/requirement-skeleton/traceability.md",
+      "kind": "md"
+    }
+  ],
+  "subfolders": []
+}

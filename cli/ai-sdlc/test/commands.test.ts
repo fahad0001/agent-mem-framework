@@ -1140,7 +1140,6 @@ describe("sbom-check", () => {
     fs.writeFileSync(badPath, JSON.stringify(badBom), "utf8");
     let exitCode: number | undefined;
     const realExit = process.exit;
-    // @ts-expect-error mock
     process.exit = (c?: number) => {
       exitCode = c;
       throw new Error("__exit__");

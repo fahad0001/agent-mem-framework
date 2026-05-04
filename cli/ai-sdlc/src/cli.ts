@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import path from "node:path";
 import { Command } from "commander";
+import packageJson from "../package.json";
 import { cmdInit } from "./commands/init.js";
 import { cmdAdd } from "./commands/add.js";
 import { cmdStatus } from "./commands/status.js";
@@ -48,7 +49,7 @@ program
   .description(
     "Universal AI-assisted project bootstrapper and SDLC framework — anti-hallucination by construction.",
   )
-  .version("0.1.0-alpha.0")
+  .version(packageJson.version)
   .option("--interactive <mode>", "auto|minimal|full", "auto")
   .option("--config <path>", "use a config file")
   .option("--dry-run", "show what would happen, change nothing")
@@ -165,17 +166,34 @@ program
   .description("Brownfield: adopt an existing repo (no framework yet).")
   .argument("[path]", "target repo path", ".")
   .option("--vendors <csv>", "AI vendors", "copilot")
+  .option(
+    "--capabilities <csv>",
+    "capability categories or ids (csv). default: diagnostics. use 'all' for everything.",
+  )
   .option("--deep", "run deep detection + audit + findings report")
   .option("--apply-fixes", "apply idempotent safe fixes (only with --deep)")
   .action(
     async (
       p: string,
-      o: { vendors: string; deep?: boolean; applyFixes?: boolean },
+      o: {
+        vendors: string;
+        capabilities?: string;
+        deep?: boolean;
+        applyFixes?: boolean;
+      },
     ) => {
       await guard(() =>
         cmdAdopt({
           cwd: rp(p),
           vendors: o.vendors.split(",").map((s) => s.trim()) as never,
+          ...(o.capabilities
+            ? {
+                capabilities: o.capabilities
+                  .split(",")
+                  .map((s) => s.trim())
+                  .filter(Boolean),
+              }
+            : {}),
           deep: o.deep,
           applyFixes: o.applyFixes,
         }),

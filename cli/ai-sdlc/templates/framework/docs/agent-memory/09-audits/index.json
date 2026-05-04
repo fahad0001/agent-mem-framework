@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0.0",
+  "folder": "docs/agent-memory/09-audits",
+  "description": "Agent memory folder.",
+  "files": [
+    {
+      "file": "docs/agent-memory/09-audits/2026-05-04-skill-suite-upgrade.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/09-audits/README.md",
+      "kind": "md"
+    }
+  ],
+  "subfolders": []
+}

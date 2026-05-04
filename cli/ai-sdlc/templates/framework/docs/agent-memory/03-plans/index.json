@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "1.0.0",
+  "folder": "docs/agent-memory/03-plans",
+  "description": "Planning artifacts grouped by R-XXXX.",
+  "files": [
+    {
+      "file": "docs/agent-memory/03-plans/README.md",
+      "kind": "md"
+    }
+  ],
+  "subfolders": [
+    {
+      "folder": "docs/agent-memory/03-plans/_templates",
+      "kind": "support",
+      "indexFile": "docs/agent-memory/03-plans/_templates/index.json"
+    }
+  ]
+}

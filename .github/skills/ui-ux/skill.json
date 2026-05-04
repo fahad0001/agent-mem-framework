@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "ui-ux",
+  "summary": "Mode-aware UI/UX skill: proto (design), validation (review), guide (implementation guidance), all.",
+  "triggers": [
+    "UI",
+    "UX",
+    "prototype",
+    "wireframe",
+    "screen flow",
+    "interface review",
+    "accessibility audit",
+    "usability",
+    "user flow",
+    "interaction states",
+    "responsive layout",
+    "design system",
+    "visual design"
+  ],
+  "modes": ["proto", "validation", "guide", "all"],
+  "scripts": [
+    {
+      "path": "scripts/audit-ui-surface.mjs",
+      "purpose": "Count UI files, style files, stories, and tests; return accessibility and state-coverage checklist prompts.",
+      "readOnly": true,
+      "outputs": ["json"]
+    },
+    {
+      "path": "scripts/a11y-static-check.mjs",
+      "purpose": "Scan HTML/JSX/TSX/Vue/Svelte for missing alt text, icon button names, clickable divs, and unlabeled inputs.",
+      "readOnly": true,
+      "outputs": ["json", "text"]
+    },
+    {
+      "path": "scripts/state-coverage-map.mjs",
+      "purpose": "Map stories and tests against required UI states: loading, empty, error, success, disabled, focused, permission.",
+      "readOnly": true,
+      "outputs": ["json", "text"]
+    },
+    {
+      "path": "scripts/responsive-token-scan.mjs",
+      "purpose": "Scan styles and components for viewport font sizing, negative letter spacing, 100vw overflow, and fragile absolute layout.",
+      "readOnly": true,
+      "outputs": ["json", "text"]
+    }
+  ],
+  "references": [
+    "references/validation-checklist.md",
+    "references/interaction-states.md"
+  ],
+  "evaluation": {
+    "signals": [
+      "mode is explicit (proto / validation / guide / all)",
+      "all 7 interaction states are covered for the feature in scope",
+      "accessibility and responsive checks are included in validation mode",
+      "open product questions are listed, not guessed"
+    ]
+  }
+}

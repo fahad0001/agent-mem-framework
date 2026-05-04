@@ -137,7 +137,9 @@ hard-blocked (use `--force` to override):
 
 `init` no longer scaffolds every agent/prompt/workflow. Instead it asks which
 **capability categories** to include and ships only those. The SDLC core (10
-agents, 8 prompts, scoped instructions) is always present.
+agents, 8 prompts, scoped instructions) is always present. `adopt` follows the
+same capability filtering: default `diagnostics`, or use `--capabilities all`
+when you want the full catalog.
 
 | Category      | Adds                                                                           |
 | ------------- | ------------------------------------------------------------------------------ |
@@ -151,6 +153,7 @@ agents, 8 prompts, scoped instructions) is always present.
 
 ```bash
 ai-sdlc init --capabilities security,release    # at scaffold time
+ai-sdlc adopt --capabilities security,release   # brownfield with the same filter
 ai-sdlc init --capabilities all                 # everything
 ai-sdlc add security                            # add later
 ai-sdlc add sbom-check threat-coverage          # individual ids
@@ -179,10 +182,28 @@ npx @opair/ai-sdlc init
 ```bash
 npx @opair/ai-sdlc adopt
 npx @opair/ai-sdlc adopt --deep
+npx @opair/ai-sdlc adopt --capabilities all
 ```
 
 `adopt` inspects what already exists (PRs, issues, ADRs, READMEs) and proposes
 requirements + ADRs to import without overwriting your code.
+
+### Included skills
+
+Scaffolded projects include reusable skills under `.github/skills/` for PR
+review, e2e test writing, UI/UX (`proto`, `validation`, `guide`, `all`),
+presentations, AHC evidence handling, and memory transforms such as Obsidian,
+Mermaid, Graphviz/DOT, dashboards, and reports.
+
+Each skill is an automation-first pack with `SKILL.md`, `skill.json`,
+`references/`, and `scripts/`. `SKILL.md` stays concise for agent use,
+`skill.json` is the fast lookup layer, and `references/` holds durable
+operational guidance.
+
+Agent memory also ships folder-level `index.json` files. Run
+`npm run build:memory-indexes` after memory-tree changes and
+`npm run validate:memory-indexes` to confirm the machine-readable lookup layer is
+fresh.
 
 ### Option C — Brainstorm first, then create
 

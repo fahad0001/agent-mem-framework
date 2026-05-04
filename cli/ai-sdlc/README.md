@@ -96,16 +96,29 @@ agents/prompts/workflows into opt-in categories:
 | `workflows`   | Brownfield + autonomous orchestrator agents                                  | `adopt`, `autopilot`                                              |
 
 The SDLC pipeline (10 agents, 8 prompts, scoped instructions) is **always
-included** — categories are additive on top.
+included** — categories are additive on top. `adopt` uses the same filtering:
+default `diagnostics`, or pass `--capabilities all` for the full catalog.
 
 ```bash
 ai-sdlc init --capabilities security,release        # at scaffold time
+ai-sdlc adopt --capabilities security,release       # brownfield, same filter
 ai-sdlc init --capabilities all                     # ship everything
 
 ai-sdlc add security                                 # later: add a category
 ai-sdlc add sbom-check threat-coverage               # or pick individual ids
 ai-sdlc add                                          # no args → list catalog
 ```
+
+Scaffolded projects also include `.github/skills/` entries for PR review, e2e
+test writing, UI/UX (`proto`, `validation`, `guide`, `all`), presentations, AHC
+evidence handling, and memory transforms such as Obsidian, Mermaid,
+Graphviz/DOT, dashboards, and reports.
+
+Skills are automation-first packs: `SKILL.md` for concise workflow routing,
+`skill.json` for machine-readable script/resource metadata, `references/` for
+durable operational guidance, and `scripts/` for deterministic repeated work. Agent
+memory includes folder-level `index.json` files for fast script/agent lookup;
+refresh them with `npm run build:memory-indexes` after memory artifacts change.
 
 ### Brainstorm → create flow
 
@@ -185,7 +198,7 @@ above). Outputs are AHC-compliant — every answer is recorded as
 ai-sdlc init [--capabilities ...]   scaffold a project (default: diagnostics)
 ai-sdlc brainstorm                  interactive intake → project-brief.{md,json}
 ai-sdlc create [--from-brief ...]   scaffold a project from a brief
-ai-sdlc adopt [--deep]              import an existing project
+ai-sdlc adopt [--deep] [--capabilities ...]  import an existing project
 ai-sdlc add <category|id> [...]     add capabilities to an existing root
 ai-sdlc autopilot [...]             autonomous SDLC orchestrator
 

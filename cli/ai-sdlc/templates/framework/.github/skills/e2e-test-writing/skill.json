@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "e2e-test-writing",
+  "summary": "End-to-end test lifecycle: detect framework, gap-analyse against requirements, author user-behavior-first tests, run until green.",
+  "triggers": [
+    "e2e test",
+    "end-to-end test",
+    "playwright",
+    "cypress",
+    "browser test",
+    "user journey test",
+    "acceptance test",
+    "feature file",
+    "flaky test"
+  ],
+  "scripts": [
+    {
+      "path": "scripts/detect-framework.mjs",
+      "purpose": "Detect Playwright, Cypress, WebdriverIO, E2E scripts, configs, test directories, and result hints.",
+      "readOnly": true,
+      "outputs": ["json"]
+    },
+    {
+      "path": "scripts/inspect-e2e-surface.mjs",
+      "purpose": "Detect e2e runner, config paths, existing tests, and app entrypoints.",
+      "readOnly": true,
+      "outputs": ["json"]
+    },
+    {
+      "path": "scripts/coverage-map.mjs",
+      "purpose": "Map R-XXXX requirements to tagged feature scenarios and surface missing or orphaned coverage.",
+      "readOnly": true,
+      "outputs": ["json", "text"]
+    },
+    {
+      "path": "scripts/health-check.mjs",
+      "purpose": "Lint E2E tests for fixed waits, CSS selectors, DOM-language Gherkin, and missing requirement tags.",
+      "readOnly": true,
+      "outputs": ["json", "text"]
+    },
+    {
+      "path": "scripts/test-report-parser.mjs",
+      "purpose": "Parse JUnit XML and Playwright JSON reports into pass/fail summaries for diagnosis.",
+      "readOnly": true,
+      "outputs": ["json", "text"]
+    },
+    {
+      "path": "scripts/meaningfulness-audit.mjs",
+      "purpose": "Reject low-value scenarios and specs that lack user action, downstream outcome, or real assertions.",
+      "readOnly": true,
+      "outputs": ["json", "text"]
+    },
+    {
+      "path": "scripts/dom-probe.mjs",
+      "purpose": "Probe a running app with Playwright and emit headings, buttons, labels, links, and data attributes.",
+      "readOnly": true,
+      "outputs": ["json"]
+    }
+  ],
+  "references": [
+    "references/lifecycle.md",
+    "references/selectors.md",
+    "references/gap-checklist.md"
+  ],
+  "evaluation": {
+    "signals": [
+      "framework detected before any code is written",
+      "tests map to user journeys and acceptance criteria",
+      "selectors follow the role-first ladder",
+      "suite is green after run-and-iterate"
+    ]
+  }
+}

@@ -57,6 +57,7 @@ export const filterCapabilities = (
       path.join(targetDir, ".claude", "agents", `${cap}.md`),
       path.join(targetDir, ".aider", "agents", `${cap}.md`),
       path.join(targetDir, ".continue", "agents", `${cap}.md`),
+      path.join(targetDir, ".opencode", "agent", `${cap}.md`),
       path.join(targetDir, ".opencode", "agents", `${cap}.md`),
       path.join(targetDir, "AGENTS", `${cap}.md`),
     ];

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "presentation",
+  "summary": "Build slide decks from source, scratch, or review with structured narrative arcs and design rules.",
+  "triggers": [
+    "presentation",
+    "slide deck",
+    "slides",
+    "deck",
+    "speaker notes",
+    "executive briefing",
+    "pitch deck",
+    "roadmap deck",
+    "demo script",
+    "PowerPoint",
+    ".pptx"
+  ],
+  "scripts": [
+    {
+      "path": "scripts/build-deck-outline.mjs",
+      "purpose": "Convert Markdown headings into a structured slide outline with speaker-note placeholders.",
+      "readOnly": true,
+      "outputs": ["json", "markdown"]
+    },
+    {
+      "path": "scripts/lint-deck-outline.mjs",
+      "purpose": "Lint slide Markdown for assertion titles, placeholder text, overlong bullets, visual plans, and notes.",
+      "readOnly": true,
+      "outputs": ["json", "text"]
+    },
+    {
+      "path": "scripts/asset-inventory.mjs",
+      "purpose": "Inventory local and remote visual assets referenced by deck Markdown and fail on missing local assets.",
+      "readOnly": true,
+      "outputs": ["json", "text"]
+    },
+    {
+      "path": "scripts/pptx-inspect.py",
+      "purpose": "Inspect a PPTX file with Python stdlib and emit slide count, media count, and extracted slide text.",
+      "readOnly": true,
+      "outputs": ["json", "text"]
+    },
+    {
+      "path": "scripts/unpack-pptx.py",
+      "purpose": "Unpack a PPTX archive into an editable XML directory using Python stdlib.",
+      "readOnly": false,
+      "outputs": ["directory"]
+    },
+    {
+      "path": "scripts/pack-pptx.py",
+      "purpose": "Pack an edited PPTX XML directory back into a .pptx archive using Python stdlib.",
+      "readOnly": false,
+      "outputs": ["pptx"]
+    }
+  ],
+  "references": [
+    "references/narrative-structure.md",
+    "references/slide-design.md"
+  ],
+  "evaluation": {
+    "signals": [
+      "audience type and decision needed are explicit",
+      "a named narrative arc (A, B, or C) is declared",
+      "every headline is a full assertion, not a topic label",
+      "open facts are listed, not guessed",
+      "QA checklist in SKILL.md is satisfied before done"
+    ]
+  }
+}

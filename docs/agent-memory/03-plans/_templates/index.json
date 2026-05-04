@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0.0",
+  "folder": "docs/agent-memory/03-plans/_templates",
+  "description": "Agent memory folder.",
+  "files": [
+    {
+      "file": "docs/agent-memory/03-plans/_templates/execution-strategy.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/03-plans/_templates/implementation-order.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/03-plans/_templates/rollback-plan.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/03-plans/_templates/validation-plan.md",
+      "kind": "md"
+    },
+    {
+      "file": "docs/agent-memory/03-plans/_templates/work-breakdown.md",
+      "kind": "md"
+    }
+  ],
+  "subfolders": []
+}

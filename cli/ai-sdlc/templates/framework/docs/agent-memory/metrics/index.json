@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0.0",
+  "folder": "docs/agent-memory/metrics",
+  "description": "Metrics and measurement artifacts.",
+  "files": [
+    {
+      "file": "docs/agent-memory/metrics/dora.json",
+      "kind": "json"
+    }
+  ],
+  "subfolders": []
+}

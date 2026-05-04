@@ -1,0 +1,98 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-05-04T00:23:49.3274493+02:00",
+  "project": {
+    "name": "ai-sdlc-framework",
+    "memoryRoot": "framework-dev",
+    "idPrefix": "F"
+  },
+  "requirements": {
+    "sequence": 3,
+    "items": [
+      {
+        "id": "F-0009",
+        "title": "Fix scaffold validation, capability pruning, and shipped agent skills",
+        "status": "Done",
+        "priority": "P1",
+        "createdAt": "2026-05-04T00:01:28.2460215+02:00",
+        "updatedAt": "2026-05-04T00:01:28.2460215+02:00",
+        "paths": {
+          "requirementRoot": "framework-dev/requirements/F-0009",
+          "planRoot": "framework-dev/plans/F-0009",
+          "executionRoot": "framework-dev/execution/F-0009",
+          "evaluationRoot": "framework-dev/evaluation/F-0009"
+        },
+        "latest": {
+          "plan": {
+            "file": "framework-dev/plans/F-0009/plan.md",
+            "updatedAt": "2026-05-04T00:01:28.2460215+02:00"
+          },
+          "execution": {
+            "file": "framework-dev/execution/F-0009/implementation-notes.md",
+            "updatedAt": "2026-05-04T00:01:28.2460215+02:00"
+          },
+          "evaluation": {
+            "file": "framework-dev/evaluation/F-0009/final-approval-report.md",
+            "updatedAt": "2026-05-04T00:01:28.2460215+02:00"
+          }
+        }
+      },
+      {
+        "id": "F-0010",
+        "title": "Establish script-backed skill architecture and enforcement",
+        "status": "Done",
+        "priority": "P1",
+        "createdAt": "2026-05-04T00:11:26.2274409+02:00",
+        "updatedAt": "2026-05-04T00:11:26.2274409+02:00",
+        "paths": {
+          "requirementRoot": "framework-dev/requirements/F-0010",
+          "planRoot": "framework-dev/plans/F-0010",
+          "executionRoot": "framework-dev/execution/F-0010",
+          "evaluationRoot": "framework-dev/evaluation/F-0010"
+        },
+        "latest": {
+          "plan": {
+            "file": "framework-dev/plans/F-0010/plan.md",
+            "updatedAt": "2026-05-04T00:11:26.2274409+02:00"
+          },
+          "execution": {
+            "file": "framework-dev/execution/F-0010/implementation-notes.md",
+            "updatedAt": "2026-05-04T00:11:26.2274409+02:00"
+          },
+          "evaluation": {
+            "file": "framework-dev/evaluation/F-0010/final-approval-report.md",
+            "updatedAt": "2026-05-04T00:11:26.2274409+02:00"
+          }
+        }
+      },
+      {
+        "id": "F-0011",
+        "title": "Add skill manifests and machine-readable memory folder indexes",
+        "status": "Done",
+        "priority": "P1",
+        "createdAt": "2026-05-04T00:23:49.3274493+02:00",
+        "updatedAt": "2026-05-04T00:23:49.3274493+02:00",
+        "paths": {
+          "requirementRoot": "framework-dev/requirements/F-0011",
+          "planRoot": "framework-dev/plans/F-0011",
+          "executionRoot": "framework-dev/execution/F-0011",
+          "evaluationRoot": "framework-dev/evaluation/F-0011"
+        },
+        "latest": {
+          "plan": {
+            "file": "framework-dev/plans/F-0011/plan.md",
+            "updatedAt": "2026-05-04T00:23:49.3274493+02:00"
+          },
+          "execution": {
+            "file": "framework-dev/execution/F-0011/implementation-notes.md",
+            "updatedAt": "2026-05-04T00:23:49.3274493+02:00"
+          },
+          "evaluation": {
+            "file": "framework-dev/evaluation/F-0011/final-approval-report.md",
+            "updatedAt": "2026-05-04T00:23:49.3274493+02:00"
+          }
+        }
+      }
+    ]
+  }
+}

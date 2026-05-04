@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "ahc-evidence",
+  "summary": "Collect verifiable evidence for agent-memory artifacts and ensure AHC compliance before state transitions.",
+  "triggers": [
+    "evidence",
+    "AHC",
+    "Anti-Hallucination Charter",
+    "hallucination check",
+    "hash",
+    "traceability",
+    "evaluation compliance",
+    "verifier readiness",
+    "agent-memory artifact"
+  ],
+  "scripts": [
+    {
+      "path": "scripts/collect-evidence.mjs",
+      "purpose": "Emit JSON evidence records for cited files (path, exists, byteSize, sha256).",
+      "readOnly": true,
+      "outputs": ["json"]
+    },
+    {
+      "path": "scripts/command-evidence.mjs",
+      "purpose": "Run a command and emit reproducible evidence with cwd, exit code, timestamps, output hash, and preview.",
+      "readOnly": false,
+      "outputs": ["json"]
+    },
+    {
+      "path": "scripts/verify-citations.mjs",
+      "purpose": "Scan a Markdown artifact for repository path citations and fail if any referenced path is missing.",
+      "readOnly": true,
+      "outputs": ["json", "text"]
+    },
+    {
+      "path": "scripts/evidence-bundle.mjs",
+      "purpose": "Write a JSON evidence bundle with existence, byte counts, and sha256 hashes for listed files.",
+      "readOnly": true,
+      "outputs": ["json"]
+    }
+  ],
+  "references": ["references/evidence-types.md", "references/charter-rules.md"],
+  "evaluation": {
+    "signals": [
+      "every factual claim has an evidence array entry",
+      "unknowns are explicitly marked UNKNOWN with open questions",
+      "file hashes are computed by script, not inferred",
+      "verifier handoff note is present at artifact bottom"
+    ]
+  }
+}

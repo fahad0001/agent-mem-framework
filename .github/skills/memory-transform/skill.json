@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "memory-transform",
+  "summary": "Transform indexed agent memory into Mermaid graphs, DOT files, Obsidian vaults, and narrative reports.",
+  "triggers": [
+    "Obsidian",
+    "Mermaid",
+    "Graphviz",
+    "DOT graph",
+    "memory graph",
+    "agent memory report",
+    "memory dashboard",
+    "visualize requirements",
+    "memory vault",
+    "status graph"
+  ],
+  "scripts": [
+    {
+      "path": "scripts/export-memory-graph.mjs",
+      "purpose": "Export agent-memory index as Mermaid, DOT, or Obsidian-style Markdown vault.",
+      "readOnly": false,
+      "outputs": ["mermaid", "dot", "markdown"]
+    },
+    {
+      "path": "scripts/memory-report.mjs",
+      "purpose": "Render a Markdown status report from requirements and ADR entries in docs/agent-memory/index.json.",
+      "readOnly": true,
+      "outputs": ["markdown"]
+    },
+    {
+      "path": "scripts/obsidian-vault.mjs",
+      "purpose": "Export requirements and ADRs into an Obsidian-compatible vault with backlinks and index page.",
+      "readOnly": false,
+      "outputs": ["markdown", "directory"]
+    },
+    {
+      "path": "scripts/memory-dashboard.mjs",
+      "purpose": "Generate a standalone HTML dashboard summarizing requirement status from the machine index.",
+      "readOnly": false,
+      "outputs": ["html"]
+    }
+  ],
+  "references": ["references/format-guide.md"],
+  "evaluation": {
+    "signals": [
+      "format is declared (mermaid / dot / obsidian)",
+      "generated files are listed with paths",
+      "canonical memory under docs/agent-memory/ is not mutated",
+      "node IDs and labels match requirement and ADR IDs from index.json"
+    ]
+  }
+}

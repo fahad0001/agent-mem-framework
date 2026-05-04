@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "pr-review",
+  "summary": "Review code changes with structured per-dimension analysis, severity labels, and traceability checks.",
+  "triggers": [
+    "pull request review",
+    "code review",
+    "diff review",
+    "staged changes",
+    "patch review",
+    "review against main",
+    "review against develop",
+    "check my PR"
+  ],
+  "scripts": [
+    {
+      "path": "scripts/collect-review-context.mjs",
+      "purpose": "Collect changed files, classify by risk category, and list candidate npm checks to run.",
+      "readOnly": true,
+      "outputs": ["json"]
+    },
+    {
+      "path": "scripts/extract-diff.mjs",
+      "purpose": "Safely extract commits, file stats, changed file list, and optional full diff against a target branch.",
+      "readOnly": true,
+      "outputs": ["json", "text"]
+    },
+    {
+      "path": "scripts/risk-map.mjs",
+      "purpose": "Classify changed files by review area, risk level, review order, and suggested scrutiny checks.",
+      "readOnly": true,
+      "outputs": ["json", "text"]
+    }
+  ],
+  "references": ["references/review-checklist.md"],
+  "evaluation": {
+    "signals": [
+      "findings cite concrete file:line evidence",
+      "verdict (APPROVE / REQUEST CHANGES / COMMENT) appears at top of review.md",
+      "traceability gaps are reported when agent memory is present",
+      "skipped files are listed with reasons"
+    ]
+  }
+}
