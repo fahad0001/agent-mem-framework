@@ -23,3 +23,4 @@ Prepared `@opair/ai-sdlc` for `0.1.0-alpha.5` publishing after the script-backed
 ## Publish Status
 
 Publishing requires npm registry authentication. `npm whoami` returned `E401 Unauthorized` before publish.
+`npm login --auth-type=web` opened a CLI login flow, but the browser page could not complete in this environment and the terminal login process was stopped.
